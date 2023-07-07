@@ -11,8 +11,7 @@ la matriz M en la cual empieza el primer elemento de la submatriz P.
 public class Ejercicio21 {
     public static void main(String[] args) {
         int [][] matrizM = new int[10][10];
-        int [][] matrizP = new int[3][3];
-        
+                
         matrizM [0][0] = 1;
         matrizM [0][1] = 26;
         matrizM [0][2] = 36;
@@ -115,16 +114,48 @@ public class Ejercicio21 {
         matrizM [9][9] = 5;
         
         //-------
-                
-        matrizM [0][0] = 36;
-        matrizM [0][1] = 5;
-        matrizM [0][2] = 67;
-        matrizM [1][0] = 89;
-        matrizM [1][1] = 90;
-        matrizM [1][2] = 75;
-        matrizM [2][0] = 14;
-        matrizM [2][1] = 22;
-        matrizM [2][2] = 26;
+        
+        int[][] matrizP = {
+            {36, 5, 67},
+            {89, 90, 75},
+            {14, 22, 26}
+        };
+        
+        int filaInicio = -1; // Inicializar con valor -1 para indicar que no se ha encontrado coincidencia
+        int columnaInicio = -1;
+        
+        for (int fila = 0; fila <= matrizM.length - matrizP.length; fila++) {
+            for (int columna = 0; columna <= matrizM[0].length - matrizP[0].length; columna++) {//el [0] solo sirve si se asume que la matriz es cuadrada
+                if (submatrizCoincide(matrizM, matrizP, fila, columna)) {
+                    filaInicio = fila;
+                    columnaInicio = columna;
+                    break; // Se encontró coincidencia, salir del bucle interno
+                }
+            }
+            if (filaInicio != -1) {
+                break; // Se encontró coincidencia, salir del bucle externo
+            }
+        }
+        
+        if (filaInicio != -1) {
+            System.out.println("La matriz P está contenida en la matriz M.");
+            System.out.println("La submatriz P comienza en la fila " + filaInicio + " y columna " + columnaInicio);
+        } else {
+            System.out.println("La matriz P no está contenida en la matriz M.");
+        }
         
     }//main
+    
+    private static boolean submatrizCoincide(int[][] matrizM, int[][] matrizP, int filaInicio, int columnaInicio) {
+        for (int i = 0; i < matrizP.length; i++) {
+            for (int j = 0; j < matrizP[0].length; j++) {
+                if (matrizM[filaInicio + i][columnaInicio + j] != matrizP[i][j]) {
+                    return false; // No coincide, salir y retornar false
+                }
+            }
+        }
+        return true; // Todas las comparaciones coinciden, retornar true 
+    }//función
+   
 }//class
+    
